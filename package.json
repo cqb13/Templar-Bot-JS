@@ -1,0 +1,30 @@
+{
+  "name": "templar-bot",
+  "version": "1.0.0",
+  "description": "Simple discord bot",
+  "main": "bot.js",
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "discord.js": "^14.2.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "moment": "^2.29.4",
+    "node": "^16.17.0",
+    "request": "^2.88.2"
+  },
+  "scripts": {
+    "start": "node --experimental-modules --es-module-specifier-resolution=node bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cqb13/Templar-Bot-JS.git"
+  },
+  "keywords": [],
+  "author": "cqb13",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cqb13/Templar-Bot-JS/issues"
+  },
+  "homepage": "https://github.com/cqb13/Templar-Bot-JS#readme",
+  "type": "module"
+}
