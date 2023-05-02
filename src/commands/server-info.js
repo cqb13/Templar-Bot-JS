@@ -1,6 +1,5 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import logger from "../events/eventLog.js";
-import { color } from "../../bot.js";
+import { createEmbed } from "../utils/createEmbed";
+import { SlashCommandBuilder } from "discord.js";
 import pkg from "moment";
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
@@ -20,8 +19,16 @@ const invoke = (interaction) => {
   const guild = interaction.guild;
   const moment = pkg;
 
+  const afkChannels = () => {
+    if (guild.afkChannel === null) {
+      return "None";
+    } else {
+      return guild.afkChannel.name;
+    }
+  }
+
   // Create a MessageEmbed and add an inlined field for each property displayed in the reply message
-  const embed = new EmbedBuilder().setTitle(guild.name).addFields([
+  const fields = [
     {
       name: "Members",
       value: guild.memberCount.toString(),
@@ -44,7 +51,7 @@ const invoke = (interaction) => {
     },
     {
       name: "AFK channels",
-      value: guild.afkChannel?.name ?? "None",
+      value: afkChannels(),
       inline: true,
     },
     {
@@ -71,28 +78,10 @@ const invoke = (interaction) => {
       name: "Verified",
       value: guild.verified ? "Yes" : "No",
       inline: true,
-    },
-  ]);
+    }
+  ]
 
-  embed
-    .setColor(color)
-    .setFooter({ text: "find the source for Templar Bot on my github" })
-    .setTimestamp()
-    .setAuthor({
-      name: "Developed by cqb13",
-      url: "https://github.com/cqb13/Templar-Bot",
-      iconURL: "https://avatars.githubusercontent.com/u/74616162?s=96&v=4",
-    })
-    .setThumbnail(guild.iconURL());
-
-  // Reply to the user
-  interaction.reply({
-    embeds: [embed],
-  });
-  logger(
-    "Command Ran",
-    `Server info | From: ${interaction.guild.name} | By: ${interaction.user.username}`
-  );
+  createEmbed(interaction, guild.name, null, guild.iconURL(), fields);
 };
 
 export { create, invoke };

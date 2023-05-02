@@ -1,5 +1,4 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import logger from "../events/eventLog.js";
 
 const create = () => {
   const command = new SlashCommandBuilder()
@@ -32,11 +31,6 @@ const invoke = async (interaction) => {
     });
 
   const sendMessage = await interaction.channel.send(msg);
-
-  logger(
-    "Command Ran",
-    `Say | From: ${interaction.guild.name} | By: ${interaction.user.username} | Content: ${msg}`
-  );
 };
 
 export { create, invoke };

@@ -1,9 +1,11 @@
-import {} from "dotenv/config";
+import * as dotenv from 'dotenv';
 import fs from "fs";
 import { Client, GatewayIntentBits } from "discord.js";
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const color = 4811710;
+
+dotenv.config();
 
 const events = fs
   .readdirSync("./src/events")

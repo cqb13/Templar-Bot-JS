@@ -1,6 +1,6 @@
-import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
+import { createEmbed } from "../utils/createEmbed.js";
 import logger from "../events/eventLog.js";
-import { color } from "../../bot.js";
 import pkg from "request";
 
 const create = () => {
@@ -11,50 +11,32 @@ const create = () => {
   return command.toJSON();
 };
 
-const invoke = async (interaction) => {
+const invoke = async interaction => {
   const request = pkg;
 
-  let url = "https://aws.random.cat/meow";
+  let url = "https://api.thecatapi.com/v1/images/search";
 
   request(url, (error, response, body) => {
     if (error) {
+      logger("Error", error);
       return interaction.reply({
         content: "Could not get the image!",
-        ephemeral: true,
+        ephemeral: true
       });
     }
     try {
       body = JSON.parse(body);
-      let image = body.file;
+      let image = body[0].url;
 
-      const embed = new EmbedBuilder().setTitle(`Cat pic!`);
-
-      embed
-        .setColor(color)
-        .setFooter({ text: "find the source for Templar Bot on my github" })
-        .setTimestamp()
-        .setAuthor({
-          name: "Developed by cqb13",
-          url: "https://github.com/cqb13/Templar-Bot",
-          iconURL: "https://avatars.githubusercontent.com/u/74616162?s=96&v=4",
-        })
-        .setImage(image);
-
-      // Reply to the user
-      interaction.reply({
-        embeds: [embed],
-      });
+      createEmbed(interaction, "Cat Pic!", image);
     } catch (error) {
+      logger("Error", error);
       return interaction.reply({
         content: "Something went wrong",
-        ephemeral: true,
+        ephemeral: true
       });
     }
   });
-  logger(
-    "Command Ran",
-    `Cat | From: ${interaction.guild.name} | By: ${interaction.user.username}`
-  );
 };
 
 export { create, invoke };

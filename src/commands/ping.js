@@ -1,5 +1,4 @@
 import { SlashCommandBuilder } from "discord.js";
-import logger from "../events/eventLog.js";
 
 const create = () => {
   const command = new SlashCommandBuilder()
@@ -21,10 +20,6 @@ const invoke = (interaction) => {
       content: "Pong!",
       ephemeral: true,
     });
-    logger(
-      "Command Ran",
-      `Ping | From: ${interaction.guild.name} | By: ${interaction.user.username}`
-    );
 };
 
 export { create, invoke };

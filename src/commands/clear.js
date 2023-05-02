@@ -1,7 +1,5 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import logger from "../events/eventLog.js";
 
-// Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
 const create = () => {
   const command = new SlashCommandBuilder()
     .setName("clear")
@@ -16,7 +14,6 @@ const create = () => {
   return command.toJSON();
 };
 
-// Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = async (interaction) => {
   const amount = interaction.options.getNumber("amount");
 
@@ -34,29 +31,21 @@ const invoke = async (interaction) => {
     });
 
   if (amount < 1)
-    // Check if the amount parameter is >= 1
     return interaction.reply({
       content: "I must delete one or more messages!",
       ephemeral: true,
     });
 
-  // Delete the given amount of messages
   const deletedMessages = (
     await interaction.channel.bulkDelete(amount, true).catch((err) => {
       console.error(err);
     })
   ).size;
-
-  // Reply with a confirmation
+  
   interaction.reply({
     content: `I deleted ${deletedMessages} messages for you!`,
     ephemeral: true,
   });
-
-  logger(
-    "Command Ran",
-    `Clear | From: ${interaction.guild.name} | By: ${interaction.user.username} | Amount: ${deletedMessages}`
-  );
 };
 
 export { create, invoke };

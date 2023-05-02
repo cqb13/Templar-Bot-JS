@@ -1,6 +1,5 @@
 import config from "../../config.json" assert { type: "json" };
 import { SlashCommandBuilder } from "discord.js";
-import logger from "../events/eventLog.js";
 import { client } from "../../bot.js";
 
 const create = () => {
@@ -11,7 +10,6 @@ const create = () => {
   return command.toJSON();
 };
 
-// Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = async (interaction) => {
   const logs = client.channels.cache.get(config.LOG_CHANNEL_ID);
   var serverAmount = 0;
@@ -35,10 +33,6 @@ const invoke = async (interaction) => {
     content: `Templar bot is in \`${serverAmount}\` servers!`,
     ephemeral: true,
   });
-  logger(
-    "Command Ran",
-    `Bot server | From: ${interaction.guild.name} | By: ${interaction.user.username}`
-  );
 };
 
 export { create, invoke };

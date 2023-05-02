@@ -30,11 +30,6 @@ const invoke = async (interaction) => {
   const sendMessage = await interaction.channel.send(
     `\`\`\`fix\n${msg}\n\`\`\``
   );
-
-  logger(
-    "Command Ran",
-    `Orange text | From: ${interaction.guild.name} | By: ${interaction.user.username} | Content: ${msg}`
-  );
 };
 
 export { create, invoke };
